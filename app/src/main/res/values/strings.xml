@@ -10,6 +10,6 @@
     <string name="play_tittle">Play</string>
     <string name="menu_info">Information</string>
     <string name="credits_label_author">Authors</string>
-    <string name="credits_author_1">Érica Olmo García \n (erolgar@inf.upv.es)</string>
-    <string name="credits_author_2">Brayan Mecinas Pardo \n (bramepar@inf.upv.es)</string>
+    <string name="credits_author_1" translatable="false">Érica Olmo García\n(erolgar@inf.upv.es)</string>
+    <string name="credits_author_2" translatable="false">Brayan Mecinas Pardo\n(bramepar@inf.upv.es)</string>
 </resources>

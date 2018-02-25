@@ -27,9 +27,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:text="@string/credits_label_author"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_credits_tittle" />
+        app:layout_constraintTop_toBottomOf="@+id/label_credits_tittle"
+        tools:targetApi="lollipop" />
 
     <TextView
         android:id="@+id/label_credits_author1"
@@ -38,10 +40,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        tools:text="@string/credits_author_1"
+        android:text="@string/credits_author_1"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_credits_authors" />
+        app:layout_constraintTop_toBottomOf="@+id/label_credits_authors"
+        tools:targetApi="lollipop" />
 
     <TextView
         android:id="@+id/label_credits_author2"
@@ -50,10 +55,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        tools:text="@string/credits_author_2"
+        android:text="@string/credits_author_2"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_credits_author1" />
+        app:layout_constraintTop_toBottomOf="@+id/label_credits_author1"
+        tools:targetApi="lollipop" />
 
     <ImageView
         android:id="@+id/image_credits_author1"
@@ -64,16 +72,17 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/image_credits_author2"
-        app:srcCompat="@android:drawable/arrow_down_float" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/author_erica" />
 
     <ImageView
         android:id="@+id/image_credits_author2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
+        android:layout_height="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/image_credits_author1"
-        app:srcCompat="@android:drawable/arrow_up_float" />
+        app:layout_constraintTop_toBottomOf="@+id/label_credits_author2"
+        app:srcCompat="@drawable/author_brayan" />
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Entrega</string>
+    <string name="main_label_play">Jugar</string>
+    <string name="main_label_scores">Puntuaciónes</string>
+    <string name="main_label_settings">Ajustes</string>
+    <string name="main_tittle">Quién quiere ser millonario</string>
+    <string name="credits_tittle">Créditos</string>
+    <string name="score_tittle">Puntuación</string>
+    <string name="settings_tittle">Ajustes</string>
+    <string name="play_tittle">Jugar</string>
+    <string name="menu_info">Información</string>
+    <string name="credits_label_author">Autores</string>
+</resources>
