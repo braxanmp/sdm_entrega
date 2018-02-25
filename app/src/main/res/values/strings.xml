@@ -3,9 +3,13 @@
     <string name="main_label_play">Play</string>
     <string name="main_label_scores">Scores</string>
     <string name="main_label_settings">Settings</string>
-    <string name="main_tittle">who wants to be a millionaire</string>
+    <string name="main_tittle">Who wants to be a millionaire</string>
     <string name="credits_tittle">Credits</string>
     <string name="settings_tittle">Settings</string>
     <string name="score_tittle">Score</string>
     <string name="play_tittle">Play</string>
+    <string name="menu_info">Information</string>
+    <string name="credits_label_author">Authors</string>
+    <string name="credits_author_1">Érica Olmo García \n (erolgar@inf.upv.es)</string>
+    <string name="credits_author_2">Brayan Mecinas Pardo \n (bramepar@inf.upv.es)</string>
 </resources>
