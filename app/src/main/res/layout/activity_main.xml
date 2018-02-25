@@ -6,4 +6,86 @@
     android:layout_height="match_parent"
     tools:context="meb.sdm.entrega.MainActivity">
 
+    <ImageButton
+        android:id="@+id/image_gamepad"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="buttonPushed"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/image_score"
+        app:layout_constraintStart_toStartOf="@+id/image_score"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gamepad" />
+
+    <TextView
+        android:id="@+id/label_gamepad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_play"
+        android:onClick="buttonPushed"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/image_gamepad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_gamepad"
+        app:layout_constraintTop_toTopOf="@+id/image_gamepad"
+        tools:targetApi="lollipop" />
+
+    <ImageButton
+        android:id="@+id/image_score"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="buttonPushed"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/image_settings"
+        app:layout_constraintStart_toStartOf="@+id/image_settings"
+        app:layout_constraintTop_toBottomOf="@+id/image_gamepad"
+        app:srcCompat="@drawable/podio" />
+
+    <TextView
+        android:id="@+id/label_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_scores"
+        android:onClick="buttonPushed"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/image_score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_score"
+        app:layout_constraintTop_toTopOf="@+id/image_score"
+        tools:targetApi="lollipop" />
+
+    <ImageButton
+        android:id="@+id/image_settings"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="buttonPushed"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/label_settings"
+        app:layout_constraintEnd_toStartOf="@+id/label_settings"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/label_settings"
+        app:srcCompat="@drawable/instrumentos" />
+
+    <TextView
+        android:id="@+id/label_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_label_settings"
+        android:onClick="buttonPushed"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/image_settings"
+        app:layout_constraintTop_toBottomOf="@+id/label_score"
+        tools:targetApi="lollipop" />
 </android.support.constraint.ConstraintLayout>

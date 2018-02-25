@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Entrega</string>
+    <string name="main_label_play">Play</string>
+    <string name="main_label_scores">Scores</string>
+    <string name="main_label_settings">Settings</string>
+    <string name="main_tittle">who wants to be a millionaire</string>
+    <string name="credits_tittle">Credits</string>
+    <string name="settings_tittle">Settings</string>
+    <string name="score_tittle">Score</string>
+    <string name="play_tittle">Play</string>
 </resources>
