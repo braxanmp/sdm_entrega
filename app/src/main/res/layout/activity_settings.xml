@@ -14,20 +14,64 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="Enter your name"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        app:layout_constraintVertical_bias="0.708" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="44dp" />
+
+    <TextView
+        android:id="@+id/help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="How many times can you ask por help:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <EditText
+        android:id="@+id/num"
+        android:layout_width="46dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/help"
+        tools:layout_editor_absoluteY="96dp" />
+
+    <Button
+        android:id="@+id/add_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Add friend"
+        android:textColor="@android:color/background_light"
+        android:textColorLink="@color/colorAccent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="158dp" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ems="10"
+        android:hint="Enter your friend's name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/add_friend"
+        tools:layout_editor_absoluteY="158dp" />
+
 </android.support.constraint.ConstraintLayout>
