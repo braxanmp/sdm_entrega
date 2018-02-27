@@ -12,4 +12,14 @@
     <string name="credits_label_author">Authors</string>
     <string name="credits_author_1" translatable="false">Érica Olmo García\n(erolgar@inf.upv.es)</string>
     <string name="credits_author_2" translatable="false">Brayan Mecinas Pardo\n(bramepar@inf.upv.es)</string>
+    <string name="label_playFor">Play for:</string>
+    <string name="play_question">First</string>
+    <string name="play_question_number">Question</string>
+    <string name="play_answer_1">Answer_1</string>
+    <string name="play_answer_2">Answer_2</string>
+    <string name="play_answer_3">Answer_3</string>
+    <string name="play_answer_4">Answer_4</string>
+    <string name="play_menu_call">Call</string>
+    <string name="play_menu_public">Public</string>
+    <string name="play_menu_fifty">Fifty</string>
 </resources>
