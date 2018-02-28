@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/play_playFor"
+        android:id="@+id/play_label_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -43,7 +43,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/play_question_number"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/play_playFor"
+        app:layout_constraintBottom_toBottomOf="@+id/play_label_money"
         app:layout_constraintEnd_toStartOf="@+id/play_label_play_questionNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +59,7 @@
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/play_playFor"
+        app:layout_constraintTop_toBottomOf="@+id/play_label_money"
         tools:targetApi="lollipop" />
 
     <ScrollView
@@ -84,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
+                android:onClick="answerPushed"
                 android:text="@string/play_answer_1"
                 android:textColor="@android:color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
+                android:onClick="answerPushed"
                 android:text="@string/play_answer_2"
                 android:textColor="@android:color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,6 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
+                android:onClick="answerPushed"
                 android:text="@string/play_answer_3"
                 android:textColor="@android:color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimary"
+                android:onClick="answerPushed"
                 android:text="@string/play_answer_4"
                 android:textColor="@android:color/background_light"
                 app:layout_constraintEnd_toEndOf="parent"

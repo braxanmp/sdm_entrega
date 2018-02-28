@@ -22,4 +22,6 @@
     <string name="play_menu_call">Call</string>
     <string name="play_menu_public">Public</string>
     <string name="play_menu_fifty">Fifty</string>
+    <string name="play_failed_question">You failed!</string>
+    <string name="play_succesfull_question">Correct!</string>
 </resources>

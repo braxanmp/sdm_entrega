@@ -1,6 +1,8 @@
 package meb.sdm.entrega;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import meb.sdm.entrega.POJO.Question;
+
+import static java.lang.Integer.parseInt;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -23,6 +29,11 @@ public class PlayActivity extends AppCompatActivity {
     private int questionIndex;
     private Button answer1, answer2, answer3, answer4;
     private TextView questionText, playingFor, playingQuestion;
+    private boolean rigth = false;
+    private Map<Integer, Button> buttonMap = new HashMap<Integer, Button>();
+    /*private int[] acumulated = new int[]{0, 100, 200, 300,
+            500, 1000, 2000, 4000, 8000, 16000, 32000,
+            64000, 125000, 250000, 500000, 1000000};*/
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +47,14 @@ public class PlayActivity extends AppCompatActivity {
         answer3.setClickable(false);
         answer4 = findViewById(R.id.button_option_4);
         answer4.setClickable(false);
+        buttonMap.put(1,answer1);
+        buttonMap.put(2,answer2);
+        buttonMap.put(3,answer3);
+        buttonMap.put(4,answer4);
         questionText = findViewById(R.id.play_label_question);
-        playingFor = findViewById(R.id.play_label_playFor);
+        playingFor = findViewById(R.id.play_label_money);
         playingQuestion = findViewById(R.id.play_label_play_questionNumber);
+        rigth = false;
         questionIndex = 0;
         showQuestion(questionIndex);
 
@@ -46,6 +62,9 @@ public class PlayActivity extends AppCompatActivity {
 
     public void showQuestion(int index){
         question = questionList.get(index);
+        //playingFor.setText(parseInt(question.getNumber()));
+        questionText.setText(question.getText());
+        playingQuestion.setText(question.getNumber());
         answer1.setText(question.getAnswer1());
         answer1.setClickable(true);
         answer2.setText(question.getAnswer2());
@@ -56,9 +75,33 @@ public class PlayActivity extends AppCompatActivity {
         answer4.setClickable(true);
     }
 
+    @SuppressLint({"ResourceAsColor", "NewApi"})
     public void answerPushed(View view){
-        // switch for buttons
-        //should to get answer and compareTo buttonPushed.
+
+        if(buttonMap.get(parseInt(question.getRight())).equals((Button)view)) {
+            rigth = true;
+            Toast.makeText(this, R.string.play_succesfull_question, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.play_failed_question, Toast.LENGTH_SHORT).show();
+        }
+        answer1.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
+        answer1.setEnabled(false);
+        answer2.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
+        answer2.setEnabled(false);
+        answer3.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
+        answer3.setEnabled(false);
+        answer4.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
+        answer4.setEnabled(false);
+        buttonMap.get(parseInt(question.getRight())).setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+
+    }
+
+    private void checkAnswer(Button answer, int buttonNumber){
+        if(parseInt(question.getRight()) == buttonNumber) rigth = true;
+        else {
+            answer.setClickable(false);
+            Toast.makeText(this, R.string.play_failed_question, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
