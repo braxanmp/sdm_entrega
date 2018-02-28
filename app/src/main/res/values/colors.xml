@@ -3,7 +3,10 @@
     <color name="colorPrimary">#38b75a</color>
     <color name="colorPrimaryDark">#327636</color>
     <color name="colorAccent">#12167b</color>
-    <color name="worgAnswer">#ba1e00</color>
+    <color name="colorNotAnswered">#c7c7d2</color>
+    <color name="worgAnswer">#d9654f</color>
+    <color name="phoneAnswer">#908de2</color>
+    <color name="publicAnswer">#deea83</color>
 </resources>
 
 <!--<color name="colorPrimary">#3F51B5</color>-->

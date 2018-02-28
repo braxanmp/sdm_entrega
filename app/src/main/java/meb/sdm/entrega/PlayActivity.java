@@ -1,6 +1,8 @@
 package meb.sdm.entrega;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,7 +30,7 @@ public class PlayActivity extends AppCompatActivity {
     private TextView questionText, playingFor, playingQuestion;
     private boolean rigth = false;
     private Map<Integer, Button> mapButton = new HashMap<Integer, Button>();
-    private int[] acumulated = {0, 100, 200, 300,
+    private int[] accumulated = {0, 100, 200, 300,
             500, 1000, 2000, 4000, 8000, 16000, 32000,
             64000, 125000, 250000, 500000, 1000000};
     
@@ -36,6 +38,12 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+        //---
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String n = sharedPref.getString("userName", "notExist");
+        Toast.makeText(this, n, Toast.LENGTH_LONG).show();
+
+        //--
         answer1 = findViewById(R.id.button_option_1);
         answer1.setEnabled(false);
         answer2 = findViewById(R.id.button_option_2);
@@ -62,21 +70,19 @@ public class PlayActivity extends AppCompatActivity {
     public void showQuestion(int index){
         buttonNext.setVisibility(View.GONE);
         question = questionList.get(index);
-        playingFor.setText(""+(acumulated[index]));
+        playingFor.setText(""+(accumulated[index]));
         questionText.setText(question.getText());
         playingQuestion.setText(question.getNumber());
-        answer1.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
-        answer2.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
-        answer3.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
-        answer4.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+
+        for(Map.Entry<Integer, Button> m : mapButton.entrySet()) {
+            m.getValue().setBackgroundTintList(this.getResources().getColorStateList(R.color.colorNotAnswered));
+            m.getValue().setEnabled(true);
+            m.getValue().setVisibility(View.VISIBLE);
+        }
         answer1.setText(question.getAnswer1());
-        answer1.setEnabled(true);
         answer2.setText(question.getAnswer2());
-        answer2.setEnabled(true);
         answer3.setText(question.getAnswer3());
-        answer3.setEnabled(true);
         answer4.setText(question.getAnswer4());
-        answer4.setEnabled(true);
     }
 
     @SuppressLint({"ResourceAsColor", "NewApi"})
@@ -85,19 +91,15 @@ public class PlayActivity extends AppCompatActivity {
         if(mapButton.get(parseInt(question.getRight())).equals((Button)view)) {
             rigth = true;
             Toast.makeText(this, R.string.play_succesfull_question, Toast.LENGTH_SHORT).show();
+            mapButton.get(parseInt(question.getRight())).setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+            buttonNext.setVisibility(View.VISIBLE);
         } else {
             Toast.makeText(this, R.string.play_failed_question, Toast.LENGTH_SHORT).show();
+            for (Map.Entry<Integer, Button> m : mapButton.entrySet()) {
+                m.getValue().setEnabled(false);
+            }
+            ((Button) view).setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
         }
-        answer1.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
-        answer1.setEnabled(false);
-        answer2.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
-        answer2.setEnabled(false);
-        answer3.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
-        answer3.setEnabled(false);
-        answer4.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
-        answer4.setEnabled(false);
-        mapButton.get(parseInt(question.getRight())).setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
-        buttonNext.setVisibility(View.VISIBLE);
     }
 
     public void nextQuestion(View view){
@@ -123,16 +125,21 @@ public class PlayActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem menu){
         switch (menu.getItemId()) {
             case R.id.item_fifty:
-                Toast.makeText(this, "Fifty selected", Toast.LENGTH_SHORT).show();
+                mapButton.get(parseInt(question.getFifty1())).setVisibility(View.GONE);
+                mapButton.get(parseInt(question.getFifty2())).setVisibility(View.GONE);
+                Toast.makeText(this, "50% aplied", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_phone:
+                mapButton.get(parseInt(question.getPhone())).setBackgroundTintList(this.getResources().getColorStateList(R.color.phoneAnswer));
                 Toast.makeText(this, "Phone selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_public:
+                mapButton.get(parseInt(question.getAudience())).setBackgroundTintList(this.getResources().getColorStateList(R.color.publicAnswer));
                 Toast.makeText(this, "Public selected", Toast.LENGTH_SHORT).show();
                 return true;
             default:

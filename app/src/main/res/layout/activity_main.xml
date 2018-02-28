@@ -21,7 +21,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/image_score"
         app:layout_constraintEnd_toEndOf="@+id/image_score"
-        app:layout_constraintHorizontal_bias="0.212"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/image_score"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/gamepad" />
@@ -30,7 +30,7 @@
         android:id="@+id/label_gamepad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="28dp"
         android:layout_weight="1"
         android:onClick="buttonPushed"
         android:text="@string/main_label_play"
@@ -38,6 +38,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/image_gamepad"
         app:layout_constraintStart_toEndOf="@+id/image_gamepad"
         app:layout_constraintTop_toTopOf="@+id/image_gamepad"
+        app:layout_constraintVertical_bias="0.6"
         tools:targetApi="lollipop" />
 
     <ImageButton
@@ -55,7 +56,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/image_settings"
         app:layout_constraintEnd_toEndOf="@+id/image_settings"
-        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/image_settings"
         app:layout_constraintTop_toBottomOf="@+id/image_gamepad"
         app:srcCompat="@drawable/podio" />
@@ -64,7 +65,7 @@
         android:id="@+id/label_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="24dp"
         android:layout_weight="1"
         android:onClick="buttonPushed"
         android:text="@string/main_label_scores"
@@ -72,7 +73,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/image_score"
         app:layout_constraintStart_toEndOf="@+id/image_score"
         app:layout_constraintTop_toTopOf="@+id/image_score"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.483"
         tools:targetApi="lollipop" />
 
     <ImageButton
@@ -80,7 +81,6 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginBottom="1dp"
-        android:layout_marginEnd="2dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_weight="1"
@@ -90,7 +90,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_score"
         app:srcCompat="@drawable/instrumentos" />
@@ -99,7 +99,7 @@
         android:id="@+id/label_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="24dp"
         android:layout_weight="1"
         android:onClick="buttonPushed"
         android:text="@string/main_label_settings"
@@ -107,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/image_settings"
         app:layout_constraintStart_toEndOf="@+id/image_settings"
         app:layout_constraintTop_toTopOf="@+id/image_settings"
-        app:layout_constraintVertical_bias="0.516"
+        app:layout_constraintVertical_bias="0.616"
         tools:targetApi="lollipop" />
 
 </android.support.constraint.ConstraintLayout>
