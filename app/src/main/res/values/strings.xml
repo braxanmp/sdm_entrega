@@ -24,4 +24,7 @@
     <string name="play_menu_fifty">Fifty</string>
     <string name="play_failed_question">You failed!</string>
     <string name="play_succesfull_question">Correct!</string>
+    <string name="delete_score">Are you sure that you want to delete scores?</string>
+    <string name="label_local_scores">Local</string>
+    <string name="label_friends_scores">Friends</string>
 </resources>

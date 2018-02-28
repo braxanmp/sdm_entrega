@@ -30,13 +30,13 @@ public class ScoreAdapter extends ArrayAdapter{
         this.resource = resource;
         this.scores = scores;
     }
-    public List<HighScore> getScores() {
+    /*public List<HighScore> getScores() {
         return scores;
-    }
+    }*/
 
-    public void setScores(List<HighScore> scores) {
+    /*public void setScores(List<HighScore> scores) {
         this.scores = scores;
-    }
+    }*/
 
     public View  getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
