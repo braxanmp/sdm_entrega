@@ -38,12 +38,6 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        //---
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String n = sharedPref.getString("userName", "notExist");
-        Toast.makeText(this, n, Toast.LENGTH_LONG).show();
-
-        //--
         answer1 = findViewById(R.id.button_option_1);
         answer1.setEnabled(false);
         answer2 = findViewById(R.id.button_option_2);
@@ -91,7 +85,8 @@ public class PlayActivity extends AppCompatActivity {
         if(mapButton.get(parseInt(question.getRight())).equals((Button)view)) {
             rigth = true;
             Toast.makeText(this, R.string.play_succesfull_question, Toast.LENGTH_SHORT).show();
-            mapButton.get(parseInt(question.getRight())).setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+            mapButton.get(parseInt(question.getRight())).setBackgroundTintList(
+                    this.getResources().getColorStateList(R.color.colorPrimary));
             buttonNext.setVisibility(View.VISIBLE);
         } else {
             Toast.makeText(this, R.string.play_failed_question, Toast.LENGTH_SHORT).show();

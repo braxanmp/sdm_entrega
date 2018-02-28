@@ -12,13 +12,13 @@
     </item>
     <item
         android:id="@+id/item_public"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/ic_action_public"
         android:title="@string/play_menu_public"
         android:visible="true"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_fifty"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@drawable/ic_action_percent"
         android:title="@string/play_menu_fifty"
         android:visible="true"
         app:showAsAction="ifRoom">

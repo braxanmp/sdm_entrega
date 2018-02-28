@@ -19,6 +19,9 @@ public class SettingsActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         numhelps = findViewById(R.id.numHelps);
         nameFriend = findViewById(R.id.nameFriend);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        name.setText(sharedPref.getString("userName", ""));
+        numhelps.setText("" + sharedPref.getInt("numberHelps", 0));
     }
 
     @Override
