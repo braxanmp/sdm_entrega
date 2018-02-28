@@ -1,11 +1,8 @@
 package meb.sdm.entrega;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,30 +24,31 @@ public class PlayActivity extends AppCompatActivity {
     private Question question;
     private List<Question> questionList = generateQuestionList();
     private int questionIndex;
-    private Button answer1, answer2, answer3, answer4;
+    private Button answer1, answer2, answer3, answer4, buttonNext;
     private TextView questionText, playingFor, playingQuestion;
     private boolean rigth = false;
-    private Map<Integer, Button> buttonMap = new HashMap<Integer, Button>();
-    /*private int[] acumulated = new int[]{0, 100, 200, 300,
+    private Map<Integer, Button> mapButton = new HashMap<Integer, Button>();
+    private int[] acumulated = {0, 100, 200, 300,
             500, 1000, 2000, 4000, 8000, 16000, 32000,
-            64000, 125000, 250000, 500000, 1000000};*/
+            64000, 125000, 250000, 500000, 1000000};
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         answer1 = findViewById(R.id.button_option_1);
-        answer1.setClickable(false);
+        answer1.setEnabled(false);
         answer2 = findViewById(R.id.button_option_2);
-        answer2.setClickable(false);
+        answer2.setEnabled(false);
         answer3 = findViewById(R.id.button_option_3);
-        answer3.setClickable(false);
+        answer3.setEnabled(false);
         answer4 = findViewById(R.id.button_option_4);
-        answer4.setClickable(false);
-        buttonMap.put(1,answer1);
-        buttonMap.put(2,answer2);
-        buttonMap.put(3,answer3);
-        buttonMap.put(4,answer4);
+        answer4.setEnabled(false);
+        buttonNext = findViewById(R.id.button_next);
+        mapButton.put(1,answer1);
+        mapButton.put(2,answer2);
+        mapButton.put(3,answer3);
+        mapButton.put(4,answer4);
         questionText = findViewById(R.id.play_label_question);
         playingFor = findViewById(R.id.play_label_money);
         playingQuestion = findViewById(R.id.play_label_play_questionNumber);
@@ -60,25 +58,31 @@ public class PlayActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NewApi")
     public void showQuestion(int index){
+        buttonNext.setVisibility(View.GONE);
         question = questionList.get(index);
-        //playingFor.setText(parseInt(question.getNumber()));
+        playingFor.setText(""+(acumulated[index]));
         questionText.setText(question.getText());
         playingQuestion.setText(question.getNumber());
+        answer1.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+        answer2.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+        answer3.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+        answer4.setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
         answer1.setText(question.getAnswer1());
-        answer1.setClickable(true);
+        answer1.setEnabled(true);
         answer2.setText(question.getAnswer2());
-        answer2.setClickable(true);
+        answer2.setEnabled(true);
         answer3.setText(question.getAnswer3());
-        answer3.setClickable(true);
+        answer3.setEnabled(true);
         answer4.setText(question.getAnswer4());
-        answer4.setClickable(true);
+        answer4.setEnabled(true);
     }
 
     @SuppressLint({"ResourceAsColor", "NewApi"})
     public void answerPushed(View view){
 
-        if(buttonMap.get(parseInt(question.getRight())).equals((Button)view)) {
+        if(mapButton.get(parseInt(question.getRight())).equals((Button)view)) {
             rigth = true;
             Toast.makeText(this, R.string.play_succesfull_question, Toast.LENGTH_SHORT).show();
         } else {
@@ -92,8 +96,14 @@ public class PlayActivity extends AppCompatActivity {
         answer3.setEnabled(false);
         answer4.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
         answer4.setEnabled(false);
-        buttonMap.get(parseInt(question.getRight())).setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+        mapButton.get(parseInt(question.getRight())).setBackgroundTintList(this.getResources().getColorStateList(R.color.colorPrimary));
+        buttonNext.setVisibility(View.VISIBLE);
+    }
 
+    public void nextQuestion(View view){
+        if(questionIndex < 14)   {
+            showQuestion(++questionIndex);
+        } else Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
     }
 
     private void checkAnswer(Button answer, int buttonNumber){
