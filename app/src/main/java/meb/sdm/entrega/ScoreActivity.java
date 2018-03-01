@@ -128,7 +128,15 @@ public class ScoreActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.score_menu, menu);
         menu.findItem(R.id.item_del).setVisible(true);
         return true;
+        /*MenuItem clearAllLocal = menu.findItem(R.id.item_del);
+        if(adapter.isEmpty()|| !scoresHost.getCurrentTabTag().equals(TAB_LOCAL_SCORES)){
+            clearAllLocal.setVisible(false);
+        }else{
+            clearAllLocal.setVisible(true);
+        }
+        return true;*/
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menu){

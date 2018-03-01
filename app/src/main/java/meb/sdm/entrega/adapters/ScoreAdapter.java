@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 import meb.sdm.entrega.HighScore;
@@ -19,18 +19,18 @@ import meb.sdm.entrega.R;
  * Created by erica on 27/02/2018.
  */
 
-public class ScoreAdapter extends ArrayAdapter{
+public class ScoreAdapter extends ArrayAdapter<HighScore>{
 
     private Context context;
-    private int resource;
-    private List<HighScore> scores;
+    //private int resource;
+    private ArrayList<HighScore> scores;
 
-    public ScoreAdapter(@NonNull Context context, int resource, List<HighScore> scores) {
-        super(context, resource);
-        this.resource = resource;
+    public ScoreAdapter(@NonNull Context context, int resource, ArrayList<HighScore> scores) {
+        super(context, resource, scores);
+        this.context = context;
         this.scores = scores;
     }
-    /*public List<HighScore> getScores() {
+/*public List<HighScore> getScores() {
         return scores;
     }*/
 
@@ -38,6 +38,7 @@ public class ScoreAdapter extends ArrayAdapter{
         this.scores = scores;
     }*/
 
+    @Override
     public View  getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
