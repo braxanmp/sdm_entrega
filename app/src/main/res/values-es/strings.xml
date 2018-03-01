@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Entrega</string>
     <string name="main_label_play">Jugar</string>
-    <string name="main_label_scores">Puntuaciónes</string>
+    <string name="main_label_scores">Puntuaciones</string>
     <string name="main_label_settings">Ajustes</string>
     <string name="main_tittle">Quién quiere ser millonario</string>
     <string name="credits_tittle">Créditos</string>
@@ -11,4 +11,23 @@
     <string name="play_tittle">Jugar</string>
     <string name="menu_info">Información</string>
     <string name="credits_label_author">Autores</string>
+    <string name="settings_name">Nombre:</string>
+    <string name="settings_name_text">Introduce tu nombre</string>
+    <string name="settings_help">Cuántas veces puedes pedir ayuda:</string>
+    <string name="play_failed_question">¡Has fallado!</string>
+    <string name="play_succesfull_question">¡Correcto!</string>
+    <string name="label_local_scores">Local</string>
+    <string name="label_friends_scores">Amigos</string>
+    <string name="delete_score">¿Estás seguro que quieres borrar las puntuaciones?</string>
+    <string name="play_menu_fifty">Cincuenta</string>
+    <string name="play_menu_public">Público</string>
+    <string name="play_menu_call">Llamada</string>
+    <string name="play_answer_4">Pregunta_4</string>
+    <string name="play_answer_3">Pregunta_3</string>
+    <string name="play_answer_2">Pregunta_2</string>
+    <string name="play_answer_1">Pregunta_1</string>
+    <string name="play_question_number">Pregunta</string>
+    <string name="play_question">Primero</string>
+    <string name="add_friend">Añade un amigo</string>
+    <string name="add_name_friend">Introduce el nombre de tu amigo</string>
 </resources>

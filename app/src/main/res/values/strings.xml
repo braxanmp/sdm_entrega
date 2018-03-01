@@ -27,4 +27,9 @@
     <string name="delete_score">Are you sure that you want to delete scores?</string>
     <string name="label_local_scores">Local</string>
     <string name="label_friends_scores">Friends</string>
+    <string name="settings_name">Name:</string>
+    <string name="settings_name_text">Enter your name</string>
+    <string name="settings_help">How many times can you ask por help:</string>
+    <string name="add_friend">Add friend</string>
+    <string name="add_name_friend">Enter your friend\'s name</string>
 </resources>

@@ -7,18 +7,19 @@
     tools:context="meb.sdm.entrega.SettingsActivity">
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="Enter your name"
+        android:hint="@string/settings_name_text"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/name"
         app:layout_constraintTop_toTopOf="@+id/name" />
+        <!--android:hint="Enter your name"-->
 
     <TextView
         android:id="@+id/name"
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="Name:"
+        android:text="@string/settings_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,11 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
-        android:text="How many times can you ask por help:"
+        android:text="@string/settings_help"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
+        <!--android:text="How many times can you ask por help:"-->
 
     <EditText
         android:id="@+id/numHelps"
@@ -59,13 +61,13 @@
 
     <Button
         android:id="@+id/add_friend"
-        android:layout_width="107dp"
-        android:layout_height="46dp"
+        android:layout_width="105dp"
+        android:layout_height="59dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Add friend"
+        android:text="@string/add_friend"
         android:textColor="@android:color/background_light"
         android:textColorLink="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/nameFriend"
@@ -79,7 +81,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Enter your friend's name"
+        android:hint="@string/add_name_friend"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/help"

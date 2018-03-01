@@ -16,7 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        name = findViewById(R.id.name);
+        name = findViewById(R.id.name_text);
         numhelps = findViewById(R.id.numHelps);
         nameFriend = findViewById(R.id.nameFriend);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
