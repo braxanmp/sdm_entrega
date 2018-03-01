@@ -30,6 +30,8 @@ public class PlayActivity extends AppCompatActivity {
     private TextView questionText, playingFor, playingQuestion;
     private boolean rigth = false;
     private Map<Integer, Button> mapButton = new HashMap<Integer, Button>();
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
     private int[] accumulated = {0, 100, 200, 300,
             500, 1000, 2000, 4000, 8000, 16000, 32000,
             64000, 125000, 250000, 500000, 1000000};
@@ -56,7 +58,12 @@ public class PlayActivity extends AppCompatActivity {
         playingQuestion = findViewById(R.id.play_label_play_questionNumber);
         rigth = false;
         questionIndex = 0;
-        showQuestion(questionIndex);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPref.edit();
+        /* descomentar esto cuando el indice supere 14 testeando
+        editor.putInt("questionIndex", 0);
+        editor.commit();*/
+        showQuestion(sharedPref.getInt("questionIndex", 0));
 
     }
 
@@ -67,7 +74,8 @@ public class PlayActivity extends AppCompatActivity {
         playingFor.setText(""+(accumulated[index]));
         questionText.setText(question.getText());
         playingQuestion.setText(question.getNumber());
-
+        //int but = sharedPref.getInt("answerPushed", 0);
+        //if ( but != 0 ) answerPushed(mapButton.get(but));
         for(Map.Entry<Integer, Button> m : mapButton.entrySet()) {
             m.getValue().setBackgroundTintList(this.getResources().getColorStateList(R.color.colorNotAnswered));
             m.getValue().setEnabled(true);
@@ -77,30 +85,44 @@ public class PlayActivity extends AppCompatActivity {
         answer2.setText(question.getAnswer2());
         answer3.setText(question.getAnswer3());
         answer4.setText(question.getAnswer4());
+        //if ( but != 0 ) answerPushed(mapButton.get(but));
     }
 
     @SuppressLint({"ResourceAsColor", "NewApi"})
     public void answerPushed(View view){
-
         if(mapButton.get(parseInt(question.getRight())).equals((Button)view)) {
             rigth = true;
             Toast.makeText(this, R.string.play_succesfull_question, Toast.LENGTH_SHORT).show();
             mapButton.get(parseInt(question.getRight())).setBackgroundTintList(
                     this.getResources().getColorStateList(R.color.colorPrimary));
             buttonNext.setVisibility(View.VISIBLE);
+            //editor.putInt("answerPushed", parseInt(question.getRight()));
+            //editor.commit();
         } else {
             Toast.makeText(this, R.string.play_failed_question, Toast.LENGTH_SHORT).show();
-            for (Map.Entry<Integer, Button> m : mapButton.entrySet()) {
-                m.getValue().setEnabled(false);
+            for (int i = 1; i < 5; i++) {
+                mapButton.get(i).setEnabled(false);
+                /*if(mapButton.get(i).equals((Button) view)) {
+                    editor.putInt("answerPushed", i);
+                    editor.commit();
+                }*/
             }
             ((Button) view).setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
         }
     }
 
     public void nextQuestion(View view){
-        if(questionIndex < 14)   {
-            showQuestion(++questionIndex);
-        } else Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
+        int index = sharedPref.getInt("questionIndex", 0);
+        if(index < 14)   {
+            editor.putInt("questionIndex", sharedPref.getInt("questionIndex", 0) + 1);
+            editor.commit();
+            //editor.remove("answerPushed");
+            showQuestion(sharedPref.getInt("questionIndex", 0));
+        } else {
+            Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
+            editor.putInt("questionIndex", 1);
+            editor.commit();
+        }
     }
 
     private void checkAnswer(Button answer, int buttonNumber){

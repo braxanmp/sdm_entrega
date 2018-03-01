@@ -28,12 +28,10 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onPause(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPref.edit();
-
         Toast.makeText(this, name.getText().toString(), Toast.LENGTH_LONG).show();
         editor.putString("userName", name.getText().toString());
         if(numhelps.getText().length() != 0) editor.putInt("numberHelps", parseInt(numhelps.getText().toString()));
         editor.commit();
-
         super.onPause();
     }
 }
