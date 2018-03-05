@@ -30,4 +30,10 @@
     <string name="play_question">Primero</string>
     <string name="add_friend">Añade un amigo</string>
     <string name="add_name_friend">Introduce el nombre de tu amigo</string>
+    <string name="label_playFor">Juegando por:</string>
+    <string name="play_failed_question_text">Lo siento %1s, %2s no es la respuesta correcta</string>
+    <string name="play_rigth_question_text">¡Correcto! Has conseguido %1s puntos, ¿quieres parar aquí o continuar?</string>
+    <string name="play_rigth_question">¡Correcto!</string>
+    <string name="play_win">Enhorabuena</string>
+    <string name="play_win_text">¡Enhorabuena %1s, has ganado y tu puntuación ha sido guardada!</string>
 </resources>

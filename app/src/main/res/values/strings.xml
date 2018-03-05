@@ -12,7 +12,7 @@
     <string name="credits_label_author">Authors</string>
     <string name="credits_author_1" translatable="false">Érica Olmo García\n(erolgar@inf.upv.es)</string>
     <string name="credits_author_2" translatable="false">Brayan Mecinas Pardo\n(bramepar@inf.upv.es)</string>
-    <string name="label_playFor">Play for:</string>
+    <string name="label_playFor">Playing for:</string>
     <string name="play_question">First</string>
     <string name="play_question_number">Question</string>
     <string name="play_answer_1">Answer_1</string>
@@ -32,8 +32,13 @@
     <string name="play_rigth_question">Correct!</string>
     <string name="play_win">Congratulations</string>
     <string name="play_win_text">Congratulations %1s, you win and your score has been saved!</string>
-    <string name="settings_spinner_0">0</string>
-    <string name="settings_spinner_1">1</string>
-    <string name="settings_spinner_2">2</string>
-    <string name="settings_spinner_3">3</string>
+    <string name="settings_spinner_0" translatable="false">0</string>
+    <string name="settings_spinner_1" translatable="false">1</string>
+    <string name="settings_spinner_2" translatable="false">2</string>
+    <string name="settings_spinner_3" translatable="false">3</string>
+    <string name="add_friend">Add frient</string>
+    <string name="add_name_friend">Insert your friend\'s name</string>
+    <string name="settings_name">Name:</string>
+    <string name="settings_name_text">Enter your name</string>
+    <string name="settings_help">How many times can you ask for hep:</string>
 </resources>
