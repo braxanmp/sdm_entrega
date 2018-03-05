@@ -7,7 +7,7 @@
         android:icon="@android:drawable/stat_sys_speakerphone"
         android:title="@string/play_menu_call"
         android:visible="true"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
 
     </item>
     <item
@@ -15,13 +15,13 @@
         android:icon="@drawable/ic_action_public"
         android:title="@string/play_menu_public"
         android:visible="true"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/item_fifty"
         android:icon="@drawable/ic_action_percent"
         android:title="@string/play_menu_fifty"
         android:visible="true"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
 
     </item>
 </menu>
