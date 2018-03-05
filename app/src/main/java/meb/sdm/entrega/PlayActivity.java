@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.XmlResourceParser;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +75,8 @@ public class PlayActivity extends AppCompatActivity {
         mapButton.put(2,answer2);
         mapButton.put(3,answer3);
         mapButton.put(4,answer4);
-        questionList = getQuestionsFromResource(Locale.getDefault().getLanguage());
+        getQuestionsFromResource(Locale.getDefault().getLanguage());
+        Log.d("List", "" + questionList.size());
         questionText = findViewById(R.id.play_label_question);
         playingFor = findViewById(R.id.play_label_money);
         playingQuestion = findViewById(R.id.play_label_play_questionNumber);
@@ -91,42 +97,40 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private List<Question> getQuestionsFromResource(String language) {
-        String fileName = "raw/questions.xml";
-        if(language.equals("es")) fileName = "raw/questions_spanish_.xml";
+        questionList = new ArrayList<Question>();
+        XmlResourceParser parser = getResources().getXml(R.xml.questions);
+        if (language.equals("es")) parser = getResources().getXml(R.xml.questionsspanish);
         try {
-            FileInputStream fis = openFileInput(fileName);
-            InputStreamReader reader = new InputStreamReader(fis);
-            XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
-            parser.setInput(reader);
-            int eventType = parser.getEventType();
-            EditText target = null;
-            while (XmlPullParser.END_DOCUMENT != eventType) {
-                switch (eventType) {
-                    case XmlPullParser.START_TAG:
-                        if ("From".equals(parser.getName())) {
-                            tvFrom.setText(String.format(getResources().getString(R.string.from), parser.getAttributeValue(null, "Name")));
-                            target = etFrom;
-                        } else if ("To".equals(parser.getName())) {
-                            tvTo.setText(String.format(getResources().getString(R.string.to), parser.getAttributeValue(null, "Name")));
-                            target = etTo;
-                        } else if ("Subject".equals(parser.getName())) {
-                            target = etSubject;
-                        } else if ("Body".equals(parser.getName())) {
-                            target = etBody;
-                        }
-                        break;
-                    case XmlPullParser.TEXT:
-                        target.setText(parser.getText());
-                        break;
+            while (XmlPullParser.END_DOCUMENT != parser.getEventType()) {
+                final int event = parser.next();
+                if (event == XmlPullParser.START_TAG) {
+                    final String tag = parser.getName();
+                    if (tag.equals("question")) {
+                        questionList.add(new Question(
+                                parser.getAttributeValue(null, "number"),
+                                parser.getAttributeValue(null, "text"),
+                                parser.getAttributeValue(null, "answer1"),
+                                parser.getAttributeValue(null, "answer2"),
+                                parser.getAttributeValue(null, "answer3"),
+                                parser.getAttributeValue(null, "answer4"),
+                                parser.getAttributeValue(null, "right"),
+                                parser.getAttributeValue(null, "audience"),
+                                parser.getAttributeValue(null, "phone"),
+                                parser.getAttributeValue(null, "fifty1"),
+                                parser.getAttributeValue(null, "fifty2")));
+                    } else {
+                        Log.d("PARSER", "not matching question tag. " + tag);
+                    }
                 }
-                parser.next();
-                eventType = parser.getEventType();
+
             }
-            reader.close();
+
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (XmlPullParserException e) {e.printStackTrace();}
-        catch (FileNotFoundException e){e.printStackTrace();}
-        catch (IOException e){e.printStackTrace();}
+        return questionList;
 
     }
 
@@ -207,7 +211,8 @@ public class PlayActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.play_failed_question);
         builder.setCancelable(false);
-        builder.setMessage(String.format(getResources().getString(R.string.play_failed_question_text),sharedPref.getString(USER_NAME,""), view.getText()));
+        builder.setMessage(String.format(getResources().getString(R.string.play_failed_question_text),
+                sharedPref.getString(USER_NAME, ""), view.getText()));
         builder.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
