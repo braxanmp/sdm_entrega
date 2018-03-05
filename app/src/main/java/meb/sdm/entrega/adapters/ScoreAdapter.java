@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
-import meb.sdm.entrega.HighScore;
+import meb.sdm.entrega.POJO.HighScore;
 import meb.sdm.entrega.R;
 
 
@@ -30,15 +29,7 @@ public class ScoreAdapter extends ArrayAdapter<HighScore>{
         this.context = context;
         this.scores = scores;
     }
-/*public List<HighScore> getScores() {
-        return scores;
-    }*/
 
-    /*public void setScores(List<HighScore> scores) {
-        this.scores = scores;
-    }*/
-
-    @Override
     public View  getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {

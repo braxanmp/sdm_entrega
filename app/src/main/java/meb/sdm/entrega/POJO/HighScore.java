@@ -1,4 +1,4 @@
-package meb.sdm.entrega;
+package meb.sdm.entrega.POJO;
 
 
 /**

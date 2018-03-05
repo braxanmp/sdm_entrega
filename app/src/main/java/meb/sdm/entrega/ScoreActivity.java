@@ -15,13 +15,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import meb.sdm.entrega.POJO.HighScore;
 import meb.sdm.entrega.adapters.ScoreAdapter;
+import meb.sdm.entrega.databases.DataBaseScore;
 
 public class ScoreActivity extends AppCompatActivity {
     private ListView lv_local;
     private ListView lv_friends;
-    private ScoreAdapter adapter;
+    private ScoreAdapter adapter, adapter2;
     private static TabHost scoresHost;
+    private boolean localtab = true;
+    DataBaseScore db;
     private static final String TAB_LOCAL_SCORES = "tabLocalScores";
     private static final String TAB_FRIENDS_SCORES = "tabFriendsScores";
 
@@ -29,22 +33,10 @@ public class ScoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+        db = DataBaseScore.getSingletonDataBaseScore(this);
 
         scoresHost = (TabHost) findViewById(R.id.my_tab_host);
         scoresHost.setup();
-        /*TabHost.TabSpec spec = host.newTabSpec("TAB_1");
-// Tab Indicator specified as Label and Icon
-        spec.setIndicator("Label1",
-                getResources().getDrawable(R.drawable.));
-        spec.setContent(R.id.my_scroll_view1);
-        host.addTab(spec);
-        spec = host.newTabSpec("TAB2");
-// Tab Indicator specified as View
-        spec.setIndicator(
-                getLayoutInflater().inflate(R.layout.tab2, null));
-        spec.setContent(R.id.my_scroll_view2);
-        host.addTab(spec);
-*/
 
 
         adapter = new ScoreAdapter(
@@ -59,14 +51,15 @@ public class ScoreActivity extends AppCompatActivity {
                 final int i = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
                 builder.setIcon(android.R.drawable.stat_sys_warning);
-                builder.setTitle("Delete");
+                builder.setTitle(R.string.delete);
                 builder.setMessage(R.string.delete_score);
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        db.deleteScore(adapter.getItem(i).getName());
                         adapter.remove(adapter.getItem(i));
                         adapter.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(), R.string.delete_score, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.deleted_score, Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton(android.R.string.no, null);
@@ -77,10 +70,10 @@ public class ScoreActivity extends AppCompatActivity {
         });
 
 
-        adapter = new ScoreAdapter(
-                ScoreActivity.this, R.layout.score_list_row, getScores());
+        adapter2 = new ScoreAdapter(
+                ScoreActivity.this, R.layout.score_list_row, getFriendScores());
         lv_friends = (ListView) findViewById(R.id.list_view_friends);
-        lv_friends.setAdapter(adapter);
+        lv_friends.setAdapter(adapter2);
         makeFriendsScoreTab();
         lv_friends.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -88,14 +81,15 @@ public class ScoreActivity extends AppCompatActivity {
                 final int i = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
                 builder.setIcon(android.R.drawable.stat_sys_warning);
-                builder.setTitle("Delete");
+                builder.setTitle(R.string.delete);
                 builder.setMessage(R.string.delete_score);
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        adapter.remove(adapter.getItem(i));
-                        adapter.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(), R.string.delete_score, Toast.LENGTH_SHORT).show();
+                        db.deleteScore(adapter2.getItem(i).getName());
+                        adapter2.remove(adapter2.getItem(i));
+                        adapter2.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), R.string.deleted_score, Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton(android.R.string.no, null);
@@ -108,19 +102,19 @@ public class ScoreActivity extends AppCompatActivity {
         scoresHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+                localtab = !localtab;
                 supportInvalidateOptionsMenu();
             }
         });
     }
     public ArrayList<HighScore> getScores(){
-        ArrayList<HighScore> res = new ArrayList<>();
-        res.add(new HighScore("maria1", "1002", "latitud", "longitud"));
-        res.add(new HighScore("juan2", "3006", "latitud", "longitud"));
-        res.add(new HighScore("juana", "500", "latitud", "longitud"));
-        res.add(new HighScore("mario45", "4700", "latitud", "longitud"));
-        res.add(new HighScore("blanca8", "5000", "latitud", "longitud"));
-        res.add(new HighScore("carmen11", "4999", "latitud", "longitud"));
+        return db.getListHigscores();
+    }
 
+    public ArrayList<HighScore> getFriendScores(){
+        ArrayList<HighScore> res = new ArrayList<HighScore>();
+        res.add(new HighScore("pepe", "800", "9", "0"));
+        res.add(new HighScore("Pedro", "900", "9", "0"));
         return res;
     }
 
@@ -128,13 +122,6 @@ public class ScoreActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.score_menu, menu);
         menu.findItem(R.id.item_del).setVisible(true);
         return true;
-        /*MenuItem clearAllLocal = menu.findItem(R.id.item_del);
-        if(adapter.isEmpty()|| !scoresHost.getCurrentTabTag().equals(TAB_LOCAL_SCORES)){
-            clearAllLocal.setVisible(false);
-        }else{
-            clearAllLocal.setVisible(true);
-        }
-        return true;*/
     }
 
 
@@ -142,8 +129,26 @@ public class ScoreActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menu){
         switch (menu.getItemId()) {
             case R.id.item_del:
-                Intent intent = new Intent(this, CreditsActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ScoreActivity.this);
+                builder.setIcon(android.R.drawable.stat_sys_warning);
+                builder.setTitle(R.string.delete);
+                builder.setMessage(R.string.delete_scores);
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(localtab) {
+                            adapter.clear();
+                            adapter.notifyDataSetChanged();
+                            db.clearAllQuotations();
+                        } else {
+                            adapter2.clear();
+                            adapter2.notifyDataSetChanged();
+                        }
+                        Toast.makeText(getApplicationContext(), R.string.deleted_scores, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, null);
+                builder.create().show();
                 return true;
             default:
                 return false;

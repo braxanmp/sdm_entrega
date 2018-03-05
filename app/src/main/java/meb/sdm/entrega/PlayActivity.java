@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import meb.sdm.entrega.POJO.Question;
+import meb.sdm.entrega.databases.DataBaseScore;
 
 import static java.lang.Integer.parseInt;
 
@@ -54,6 +55,7 @@ public class PlayActivity extends AppCompatActivity {
     private static final String NUMBER_HELPS = "numberHelps";
     private static final String USER_NAME = "userName";
     SharedPreferences sharedPref;
+    DataBaseScore db;
     SharedPreferences.Editor editor;
     private final int[] accumulated = {0, 100, 200, 300,
             500, 1000, 2000, 4000, 8000, 16000, 32000,
@@ -75,6 +77,7 @@ public class PlayActivity extends AppCompatActivity {
         mapButton.put(2,answer2);
         mapButton.put(3,answer3);
         mapButton.put(4,answer4);
+        db = DataBaseScore.getSingletonDataBaseScore(this);
         getQuestionsFromResource(Locale.getDefault().getLanguage());
         Log.d("List", "" + questionList.size());
         questionText = findViewById(R.id.play_label_question);
@@ -189,7 +192,7 @@ public class PlayActivity extends AppCompatActivity {
         builder.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //------------save BD
+                db.addHighscore(sharedPref.getString(USER_NAME, ""), "" + accumulated[sharedPref.getInt(QUESTION_INDEX, 0)]);
                 restoreAndMain();
             }
         });
@@ -247,16 +250,16 @@ public class PlayActivity extends AppCompatActivity {
         builder.setNegativeButton("Stop", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                editor.remove(ANSWER_PUSHED);
-                editor.remove(QUESTION_INDEX);
-                editor.commit();
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(view.getContext());
                 builder2.setMessage("Your scoure has been saved");
                 builder2.setCancelable(false);
                 builder2.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //--------------------------------Save here score in BD
+                        db.addHighscore(sharedPref.getString(USER_NAME, ""), "" + accumulated[sharedPref.getInt(QUESTION_INDEX, 0)]);
+                        editor.remove(ANSWER_PUSHED);
+                        editor.remove(QUESTION_INDEX);
+                        editor.commit();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }
@@ -279,7 +282,7 @@ public class PlayActivity extends AppCompatActivity {
         saver.setNeutralButton("Accept",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //--------------------------------Save here score in BD
+                db.addHighscore(sharedPref.getString(USER_NAME, ""), "" + accumulated[sharedPref.getInt(QUESTION_INDEX, 0)]);
                 nextQuestion(view);
             }
         });

@@ -36,4 +36,8 @@
     <string name="play_rigth_question">¡Correcto!</string>
     <string name="play_win">Enhorabuena</string>
     <string name="play_win_text">¡Enhorabuena %1s, has ganado y tu puntuación ha sido guardada!</string>
+    <string name="delete_scores">¿Estás seguro de que quieres eliminar las puntuaciones?</string>
+    <string name="deleted_scores">Puntuaciones eliminadas</string>
+    <string name="deleted_score">Puntuación eliminada</string>
+    <string name="delete">Eliminar</string>
 </resources>
