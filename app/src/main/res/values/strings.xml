@@ -27,9 +27,8 @@
     <string name="delete_score">Are you sure that you want to delete scores?</string>
     <string name="label_local_scores">Local</string>
     <string name="label_friends_scores">Friends</string>
-    <string name="settings_name">Name:</string>
-    <string name="settings_name_text">Enter your name</string>
-    <string name="settings_help">How many times can you ask por help:</string>
-    <string name="add_friend">Add friend</string>
-    <string name="add_name_friend">Enter your friend\'s name</string>
+    <string name="play_failed_question_text">Sorry, %1s is not the rigth answer</string>
+    <string name="play_rigth_question_text">Rigth! You have now %2s coins, do you want to stop here or conitnue?</string>
+    <string name="play_rigth_question">Correct!</string>
+    <string name="play_win">You win</string>
 </resources>

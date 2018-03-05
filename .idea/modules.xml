@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Entrega.iml" filepath="$PROJECT_DIR$/Entrega.iml" />
       <module fileurl="file://E:\Documentos\PROYECTO PIN\sdm_entrega\Entrega.iml" filepath="E:\Documentos\PROYECTO PIN\sdm_entrega\Entrega.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\bramepar\AndroidStudioProjects\sdm_entrega\app\app.iml" filepath="C:\Users\bramepar\AndroidStudioProjects\sdm_entrega\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sdm_entrega.iml" filepath="$PROJECT_DIR$/sdm_entrega.iml" />
       <module fileurl="file://D:\SDM\Entrega\sdm_entrega.iml" filepath="D:\SDM\Entrega\sdm_entrega.iml" />
       <module fileurl="file://C:\Users\bramepar\AndroidStudioProjects\sdm_entrega\.idea\sdm_entrega1.iml" filepath="C:\Users\bramepar\AndroidStudioProjects\sdm_entrega\.idea\sdm_entrega1.iml" />
     </modules>

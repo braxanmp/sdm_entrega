@@ -1,8 +1,12 @@
 package meb.sdm.entrega;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,11 +30,18 @@ public class PlayActivity extends AppCompatActivity {
     private Question question;
     private List<Question> questionList = generateQuestionList();
     private int questionIndex;
-    private Button answer1, answer2, answer3, answer4, buttonNext;
+    private Button answer1, answer2, answer3, answer4;
     private TextView questionText, playingFor, playingQuestion;
     private boolean rigth = false;
     private Map<Integer, Button> mapButton = new HashMap<Integer, Button>();
-    private int[] accumulated = {0, 100, 200, 300,
+    private static final String ANSWER_PUSHED = "answerPushed";
+    private static final String QUESTION_INDEX = "questionIndex";
+    private static final String USED_PUBLIC = "usedPublic";
+    private static final String USED_FIFTY = "usedFifty";
+    private static final String USED_PHONE = "usedPhone";
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
+    private final int[] accumulated = {0, 100, 200, 300,
             500, 1000, 2000, 4000, 8000, 16000, 32000,
             64000, 125000, 250000, 500000, 1000000};
     
@@ -46,7 +57,6 @@ public class PlayActivity extends AppCompatActivity {
         answer3.setEnabled(false);
         answer4 = findViewById(R.id.button_option_4);
         answer4.setEnabled(false);
-        buttonNext = findViewById(R.id.button_next);
         mapButton.put(1,answer1);
         mapButton.put(2,answer2);
         mapButton.put(3,answer3);
@@ -56,18 +66,26 @@ public class PlayActivity extends AppCompatActivity {
         playingQuestion = findViewById(R.id.play_label_play_questionNumber);
         rigth = false;
         questionIndex = 0;
-        showQuestion(questionIndex);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPref.edit();
+       // descomentar esto para ir a una pregunta concreta
+        /*editor.putInt(QUESTION_INDEX, 14);
+        editor.commit();*/
+        /*editor.remove(USED_PHONE);
+        editor.remove(USED_PUBLIC);
+        editor.remove(USED_FIFTY);
+        editor.commit();*/
+        showQuestion(sharedPref.getInt(QUESTION_INDEX, 0));
+
 
     }
 
-    @SuppressLint("NewApi")
+
     public void showQuestion(int index){
-        buttonNext.setVisibility(View.GONE);
         question = questionList.get(index);
         playingFor.setText(""+(accumulated[index]));
         questionText.setText(question.getText());
         playingQuestion.setText(question.getNumber());
-
         for(Map.Entry<Integer, Button> m : mapButton.entrySet()) {
             m.getValue().setBackgroundTintList(this.getResources().getColorStateList(R.color.colorNotAnswered));
             m.getValue().setEnabled(true);
@@ -77,30 +95,152 @@ public class PlayActivity extends AppCompatActivity {
         answer2.setText(question.getAnswer2());
         answer3.setText(question.getAnswer3());
         answer4.setText(question.getAnswer4());
+        restoreHelps();
+
+        /**
+         * Buscamos el botón pulsado para vovlerlo a marcar.
+         */
+        int but = sharedPref.getInt(ANSWER_PUSHED, 0);
+        if ( but != 0 ) answerPushed(mapButton.get(but));
     }
 
-    @SuppressLint({"ResourceAsColor", "NewApi"})
-    public void answerPushed(View view){
 
+    public void answerPushed(final View view){
         if(mapButton.get(parseInt(question.getRight())).equals((Button)view)) {
             rigth = true;
-            Toast.makeText(this, R.string.play_succesfull_question, Toast.LENGTH_SHORT).show();
+            int n = parseInt(question.getNumber());
+            if (n == 15){
+                correctFinal(view);
+            } else {
+                if (n == 5 || n == 10) {
+                    autoSave(view, n);
+                } else {
+                    correctAnswer(view);
+                }
+            }
+        } else {
+            wrongAnswer((Button) view);
+        }
+        editor.remove(USED_PHONE);
+        editor.remove(USED_PUBLIC);
+        editor.remove(USED_FIFTY);
+        editor.commit();
+    }
+
+    private void correctFinal(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.play_win);
+        builder.setCancelable(false);
+        builder.setMessage("Congratulations, you win.\nYour score will be saved");
+        builder.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editor.remove(ANSWER_PUSHED);
+                editor.remove(QUESTION_INDEX);
+                editor.commit();
+                //------------save BD
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
+    }
+
+    private void wrongAnswer(Button view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.play_failed_question);
+        builder.setCancelable(false);
+        builder.setMessage(String.format(getResources().getString(R.string.play_failed_question_text), view.getText()));
+        builder.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            editor.remove(ANSWER_PUSHED);
+            editor.remove(QUESTION_INDEX);
+            editor.commit();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
+        });
+        builder.create().show();
+
+        for (int i = 1; i < 5; i++) {
+            mapButton.get(i).setEnabled(false);
+            if(mapButton.get(i).equals(view)) {
+                editor.putInt(ANSWER_PUSHED, i);
+                editor.commit();
+            }
+        }
+
+        view.setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
+
+    }
+
+    private void correctAnswer(final View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.play_rigth_question);
+        builder.setCancelable(false);
+        builder.setMessage(String.format(getResources().getString(R.string.play_rigth_question_text), "" + accumulated[sharedPref.getInt(QUESTION_INDEX, 0)]));
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                nextQuestion(view);
+            }
+        });
+        builder.setNegativeButton("Stop", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editor.remove(ANSWER_PUSHED);
+                editor.remove(QUESTION_INDEX);
+                editor.commit();
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(view.getContext());
+                builder2.setMessage("Your scoure has been saved");
+                builder2.setCancelable(false);
+                builder2.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //--------------------------------Save here score in BD
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder2.create().show();
+            }
+        });
+        builder.create().show();
+
             mapButton.get(parseInt(question.getRight())).setBackgroundTintList(
                     this.getResources().getColorStateList(R.color.colorPrimary));
-            buttonNext.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, R.string.play_failed_question, Toast.LENGTH_SHORT).show();
-            for (Map.Entry<Integer, Button> m : mapButton.entrySet()) {
-                m.getValue().setEnabled(false);
+        editor.putInt(ANSWER_PUSHED, parseInt(question.getRight()));
+        editor.commit();
+    }
+
+    private void autoSave(final View view, int n) {
+        AlertDialog.Builder saver = new AlertDialog.Builder(view.getContext());
+        saver.setCancelable(false);
+        saver.setMessage(String.format("Congratulations, you passed the question number %1s, your progress is now saved", n));
+        saver.setNeutralButton("Accept",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //--------------------------------Save here score in BD
+                nextQuestion(view);
             }
-            ((Button) view).setBackgroundTintList(this.getResources().getColorStateList(R.color.worgAnswer));
-        }
+        });
+        saver.create().show();
     }
 
     public void nextQuestion(View view){
-        if(questionIndex < 14)   {
-            showQuestion(++questionIndex);
-        } else Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
+
+        int index = sharedPref.getInt(QUESTION_INDEX, 0);
+        if(index < 14)   {
+            editor.putInt(QUESTION_INDEX, sharedPref.getInt(QUESTION_INDEX, 0) + 1);
+            editor.remove(ANSWER_PUSHED);
+            editor.commit();
+            showQuestion(sharedPref.getInt(QUESTION_INDEX, 0));
+        } else {
+            Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
+            editor.putInt(QUESTION_INDEX, 1);
+            editor.commit();
+        }
     }
 
     private void checkAnswer(Button answer, int buttonNumber){
@@ -120,25 +260,44 @@ public class PlayActivity extends AppCompatActivity {
         return true;
     }
 
-    @SuppressLint("NewApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem menu){
         switch (menu.getItemId()) {
             case R.id.item_fifty:
                 mapButton.get(parseInt(question.getFifty1())).setVisibility(View.GONE);
                 mapButton.get(parseInt(question.getFifty2())).setVisibility(View.GONE);
+                editor.putBoolean(USED_FIFTY, true);
+                editor.commit();
                 Toast.makeText(this, "50% aplied", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_phone:
                 mapButton.get(parseInt(question.getPhone())).setBackgroundTintList(this.getResources().getColorStateList(R.color.phoneAnswer));
+                editor.putBoolean(USED_PHONE, true);
+                editor.commit();
                 Toast.makeText(this, "Phone selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_public:
                 mapButton.get(parseInt(question.getAudience())).setBackgroundTintList(this.getResources().getColorStateList(R.color.publicAnswer));
+                editor.putBoolean(USED_PUBLIC, true);
+                editor.commit();
                 Toast.makeText(this, "Public selected", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return false;
+        }
+    }
+
+    private void restoreHelps(){
+        if(sharedPref.getBoolean(USED_FIFTY, false)){
+            mapButton.get(parseInt(question.getFifty1())).setVisibility(View.GONE);
+            mapButton.get(parseInt(question.getFifty2())).setVisibility(View.GONE);
+        }
+
+        if(sharedPref.getBoolean(USED_PUBLIC, false)){
+            mapButton.get(parseInt(question.getAudience())).setBackgroundTintList(this.getResources().getColorStateList(R.color.publicAnswer));
+        }
+        if(sharedPref.getBoolean(USED_PHONE, false)){
+            mapButton.get(parseInt(question.getPhone())).setBackgroundTintList(this.getResources().getColorStateList(R.color.phoneAnswer));
         }
     }
     
