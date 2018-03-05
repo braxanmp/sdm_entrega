@@ -13,12 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import meb.sdm.entrega.POJO.Question;
@@ -28,7 +35,7 @@ import static java.lang.Integer.parseInt;
 public class PlayActivity extends AppCompatActivity {
 
     private Question question;
-    private List<Question> questionList = generateQuestionList();
+    private List<Question> questionList;
     private int questionIndex;
     private Button answer1, answer2, answer3, answer4;
     private TextView questionText, playingFor, playingQuestion;
@@ -39,6 +46,8 @@ public class PlayActivity extends AppCompatActivity {
     private static final String USED_PUBLIC = "usedPublic";
     private static final String USED_FIFTY = "usedFifty";
     private static final String USED_PHONE = "usedPhone";
+    private static final String NUMBER_HELPS = "numberHelps";
+    private static final String USER_NAME = "userName";
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     private final int[] accumulated = {0, 100, 200, 300,
@@ -61,6 +70,7 @@ public class PlayActivity extends AppCompatActivity {
         mapButton.put(2,answer2);
         mapButton.put(3,answer3);
         mapButton.put(4,answer4);
+        questionList = getQuestionsFromResource(Locale.getDefault().getLanguage());
         questionText = findViewById(R.id.play_label_question);
         playingFor = findViewById(R.id.play_label_money);
         playingQuestion = findViewById(R.id.play_label_play_questionNumber);
@@ -77,6 +87,46 @@ public class PlayActivity extends AppCompatActivity {
         editor.commit();*/
         showQuestion(sharedPref.getInt(QUESTION_INDEX, 0));
 
+
+    }
+
+    private List<Question> getQuestionsFromResource(String language) {
+        String fileName = "raw/questions.xml";
+        if(language.equals("es")) fileName = "raw/questions_spanish_.xml";
+        try {
+            FileInputStream fis = openFileInput(fileName);
+            InputStreamReader reader = new InputStreamReader(fis);
+            XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
+            parser.setInput(reader);
+            int eventType = parser.getEventType();
+            EditText target = null;
+            while (XmlPullParser.END_DOCUMENT != eventType) {
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if ("From".equals(parser.getName())) {
+                            tvFrom.setText(String.format(getResources().getString(R.string.from), parser.getAttributeValue(null, "Name")));
+                            target = etFrom;
+                        } else if ("To".equals(parser.getName())) {
+                            tvTo.setText(String.format(getResources().getString(R.string.to), parser.getAttributeValue(null, "Name")));
+                            target = etTo;
+                        } else if ("Subject".equals(parser.getName())) {
+                            target = etSubject;
+                        } else if ("Body".equals(parser.getName())) {
+                            target = etBody;
+                        }
+                        break;
+                    case XmlPullParser.TEXT:
+                        target.setText(parser.getText());
+                        break;
+                }
+                parser.next();
+                eventType = parser.getEventType();
+            }
+            reader.close();
+        }
+        catch (XmlPullParserException e) {e.printStackTrace();}
+        catch (FileNotFoundException e){e.printStackTrace();}
+        catch (IOException e){e.printStackTrace();}
 
     }
 
@@ -131,34 +181,37 @@ public class PlayActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.play_win);
         builder.setCancelable(false);
-        builder.setMessage("Congratulations, you win.\nYour score will be saved");
+        builder.setMessage(String.format(getResources().getString(R.string.play_win_text), sharedPref.getString(USER_NAME, "")));
         builder.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                editor.remove(ANSWER_PUSHED);
-                editor.remove(QUESTION_INDEX);
-                editor.commit();
                 //------------save BD
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                restoreAndMain();
             }
         });
         builder.create().show();
+    }
+
+    private void restoreAndMain() {
+        editor.remove(ANSWER_PUSHED);
+        editor.remove(QUESTION_INDEX);
+        editor.remove(USED_FIFTY);
+        editor.remove(USED_PHONE);
+        editor.remove(USED_PUBLIC);
+        editor.commit();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     private void wrongAnswer(Button view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.play_failed_question);
         builder.setCancelable(false);
-        builder.setMessage(String.format(getResources().getString(R.string.play_failed_question_text), view.getText()));
+        builder.setMessage(String.format(getResources().getString(R.string.play_failed_question_text),sharedPref.getString(USER_NAME,""), view.getText()));
         builder.setNeutralButton("Accept", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            editor.remove(ANSWER_PUSHED);
-            editor.remove(QUESTION_INDEX);
-            editor.commit();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+            restoreAndMain();
         }
         });
         builder.create().show();
@@ -254,18 +307,24 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.play_menu, menu);
-        menu.findItem(R.id.item_fifty).setVisible(true);
-        menu.findItem(R.id.item_phone).setVisible(true);
-        menu.findItem(R.id.item_public).setVisible(true);
+        menu.findItem(R.id.item_fifty).setVisible(false);
+        menu.findItem(R.id.item_phone).setVisible(false);
+        menu.findItem(R.id.item_public).setVisible(false);
+        int numhelps = sharedPref.getInt(NUMBER_HELPS, 3);
+        if (numhelps>0) if(!sharedPref.getBoolean(USED_FIFTY, false)) menu.findItem(R.id.item_fifty).setVisible(true);
+        if (numhelps>1) if(!sharedPref.getBoolean(USED_PHONE, false))menu.findItem(R.id.item_phone).setVisible(true);
+        if (numhelps>2) if(!sharedPref.getBoolean(USED_PUBLIC, false))menu.findItem(R.id.item_public).setVisible(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menu){
+        menu.setVisible(false);
         switch (menu.getItemId()) {
             case R.id.item_fifty:
                 mapButton.get(parseInt(question.getFifty1())).setVisibility(View.GONE);
                 mapButton.get(parseInt(question.getFifty2())).setVisibility(View.GONE);
+                menu.setVisible(false);
                 editor.putBoolean(USED_FIFTY, true);
                 editor.commit();
                 Toast.makeText(this, "50% aplied", Toast.LENGTH_SHORT).show();

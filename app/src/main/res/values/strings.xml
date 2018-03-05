@@ -27,8 +27,13 @@
     <string name="delete_score">Are you sure that you want to delete scores?</string>
     <string name="label_local_scores">Local</string>
     <string name="label_friends_scores">Friends</string>
-    <string name="play_failed_question_text">Sorry, %1s is not the rigth answer</string>
+    <string name="play_failed_question_text">Sorry %1s, %2s is not the rigth answer</string>
     <string name="play_rigth_question_text">Rigth! You have now %2s coins, do you want to stop here or conitnue?</string>
     <string name="play_rigth_question">Correct!</string>
-    <string name="play_win">You win</string>
+    <string name="play_win">Congratulations</string>
+    <string name="play_win_text">Congratulations %1s, you win and your score has been saved!</string>
+    <string name="settings_spinner_0">0</string>
+    <string name="settings_spinner_1">1</string>
+    <string name="settings_spinner_2">2</string>
+    <string name="settings_spinner_3">3</string>
 </resources>
